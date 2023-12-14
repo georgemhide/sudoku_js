@@ -18,6 +18,10 @@ input.userIn {
     border: 1px solid black;
 }
 
+.bold {
+    font-weight: bolder;
+}
+
 .highlight {
 	background: rgba(214, 236, 243, 0.6);
 }
