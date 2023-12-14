@@ -64,13 +64,7 @@ jQuery.fn.sudoku = function() {
 			return;
 		}
 
-		console.log({currVal})
-		$("body table").find("input").removeClass("bold");
-		for (const [key, value] of Object.entries(table.inputs)) {
-			if (value.inputVal === parseInt(currVal)) {
-				$("body table").find(`input#${key}`).first().addClass("bold");
-			}
-		}
+		table.boldSameCells(currVal);
 	});
 
 	$("body table").on("input","input.userIn", function() {
@@ -88,10 +82,11 @@ jQuery.fn.sudoku = function() {
 		}
 
 		newValue = newValue.charAt(0);
-		if(!_cell.isValueValid()) {
+		if(!_cell.isValueValid(table.inputs)) {
 			$(this).addClass("wrong");
 		} else {
 			$(this).removeClass("wrong");
+			table.boldSameCells(newValue);
 		}
 		
 		$(this).val(newValue);
@@ -227,6 +222,15 @@ class sTable {
 
 		this.inputs[coords] = {..._cell};
 		_cell = undefined;
+	}
+
+	boldSameCells(currVal) {
+		$("body table").find("input").removeClass("bold");
+		for (const [key, value] of Object.entries(this.inputs)) {
+			if (value.inputVal === parseInt(currVal)) {
+				$("body table").find(`input#${key}`).first().addClass("bold");
+			}
+		}
 	}
 
 	highlightCells(element) {
